@@ -12,6 +12,14 @@ val Pink40 = Color(0xFF7D5260)
 
 
 // CUSTOM COLORS
-val Card_BG1 = Color(0xFFD4F6FF)
-val Quotes_Author_Text = Color(0xFF624E88)
-val Quotes_Text = Color(0xFF3D3BF3)
+val Card_BG1 = Color(0xFFCDC1FF)
+val Quotes_Author_Text = Color(0xFF595666)
+val Quotes_Text = Color(0xFFFFFFFF)
+
+val BG_ALL = Color(0xFFFFEEC5)
+
+
+// Navs
+val Top_Bar  = Color(0xFFB5C0D0)
+val ICON_COLOR  = Color(0xFFFFFFFF)
+
