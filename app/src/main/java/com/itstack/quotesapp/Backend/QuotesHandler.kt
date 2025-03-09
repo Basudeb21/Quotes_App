@@ -30,4 +30,26 @@ class QuotesHandler(val context: Context) {  // ✅ Ensure it's a class, not an 
             }
         })
     }
+
+    fun randomQuote(onResult: (Quote) -> Unit, onError: (String) -> Unit) { // ✅ Ensure function has a body
+        val apiService = RetrofitInstance.getInstance().create(ApiService::class.java)
+        val call = apiService.getRandomQuote()
+
+        call.enqueue(object : Callback<Quote> {
+            override fun onResponse(call: Call<Quote>, response: Response<Quote>) {
+                if (response.isSuccessful && response.body() != null) {
+                    response.body()?.let {
+                        onResult(it)
+                    } ?: onError("Data not found")
+                } else {
+                    onError("Error: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Quote>, t: Throwable) {
+                onError("Error: ${t.message}")
+            }
+        })
+    }
 }
+

@@ -15,7 +15,6 @@ fun NavigationGraph(context: Context){
     NavHost(navController = navController, startDestination = "all") {
         composable("splash") { SplashScreen(navController) }
         composable("options") { Options(navController) }
-        composable("modal") { Modal(navController) }
         composable("all") { AllQuotes(navController, context) }
     }
 }

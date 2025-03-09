@@ -29,8 +29,13 @@ fun allQuotes(navController: NavController, context: Context) {
     var error_msg by remember { mutableStateOf<String>("") }
     var loading by remember { mutableStateOf(true) }
 
+    var randomQuote by remember { mutableStateOf<Quote?>(null) }
+    var showModal by remember { mutableStateOf(true) }  //
+
     LaunchedEffect(Unit) {
-        QuotesHandler(context).fetchQuotes(
+        val handler = QuotesHandler(context)
+
+        handler.fetchQuotes(
             onResult = {
                 quotesList = it
                 loading = false
@@ -40,6 +45,17 @@ fun allQuotes(navController: NavController, context: Context) {
                 loading = false
             }
         )
+
+        handler.randomQuote(
+            onResult = {
+                randomQuote = it
+            },
+            onError = {
+                error_msg = it
+            }
+        )
+
+
     }
 
     Column(
@@ -49,6 +65,15 @@ fun allQuotes(navController: NavController, context: Context) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        if (showModal && randomQuote != null) {
+            modal(
+                author = randomQuote!!.author,
+                content = randomQuote!!.quote,
+                onClose = { showModal = false } // Close modal on click
+            )
+        }
+
+
         when {
             loading -> {
                 CircularProgressIndicator()
