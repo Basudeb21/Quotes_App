@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.firebase.FirebaseApp
 import com.itstack.quotesapp.Frontend.Appbar.bottomAppBar
 import com.itstack.quotesapp.Frontend.Appbar.topAppBar
 import com.itstack.quotesapp.Frontend.NavigationGraph
@@ -23,19 +24,15 @@ import com.itstack.quotesapp.ui.theme.BG_ALL
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this) // MARK
+
         enableEdgeToEdge()
         setContent {
-            Scaffold(
-                topBar = { topAppBar() },
-                bottomBar = { bottomAppBar() }
-            ) { innerPadding ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                ) {
-                    NavigationGraph(LocalContext.current)
-                }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                NavigationGraph(LocalContext.current)
             }
         }
 

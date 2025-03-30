@@ -22,4 +22,5 @@ val BG_ALL = Color(0xFFFFEEC5)
 // Navs
 val Top_Bar  = Color(0xFFB5C0D0)
 val ICON_COLOR  = Color(0xFFFFFFFF)
+val LOGIN_BG  = Color(0xFFB3C8CF)
 
