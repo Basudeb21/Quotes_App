@@ -1,8 +1,11 @@
 package com.itstack.quotesapp.Frontend.loginsignup
 
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,18 +41,21 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.itstack.quotesapp.R
 import com.itstack.quotesapp.ui.theme.LOGIN_BG
+import android.widget.Toast
+import com.itstack.quotesapp.AppScreen
 
 @Composable
-fun LoginPage(navController: NavController){
-    loginPage()
+fun LoginPage(navController: NavController, context: Context){
+    loginPage(navController, context)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
-fun loginPage(){
+fun loginPage(navController: NavController, context: Context){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     Column(
@@ -111,7 +117,9 @@ fun loginPage(){
                     modifier = Modifier.padding(horizontal = 55.dp)
                         .fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(containerColor = LOGIN_BG),
-                    onClick = {},
+                    onClick = {
+                        login(email, password, context, navController )
+                    },
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(text = "Login", fontSize = 18.sp)
@@ -121,9 +129,24 @@ fun loginPage(){
                 Text(text = "don't have an account? signup",
                     color = Color.Blue,
                     style = TextStyle(textDecoration = TextDecoration.Underline),
-                    fontSize = 15.sp)
+                    fontSize = 15.sp,
+                    modifier = Modifier.clickable(onClick = {navController.navigate("signup")})
+                )
 
             }
         }
     }
+}
+
+fun login(email: String, password: String, context: Context, navController: NavController){
+    val auth: FirebaseAuth = FirebaseAuth.getInstance()
+
+    auth.signInWithEmailAndPassword(email, password)
+        .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                context.startActivity(Intent(context, AppScreen::class.java))
+            } else {
+                Toast.makeText(context, "Login Failed: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+            }
+        }
 }

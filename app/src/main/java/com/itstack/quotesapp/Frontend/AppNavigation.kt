@@ -10,15 +10,15 @@ import com.itstack.quotesapp.Frontend.loginsignup.LoginPage
 import com.itstack.quotesapp.Frontend.loginsignup.SignupPage
 
 @Composable
-fun NavigationGraph(context: Context){
+fun AppNavigation(context: Context){
 
     val navController: NavHostController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") { SplashScreen(navController) }
-//        composable("options") { Options(navController) }
-        composable("login") { LoginPage(navController, context) }
-        composable("signup") { SignupPage(navController,context) }
-//        composable("all") { AllQuotes(navController, context) }
+    NavHost(navController = navController, startDestination = "all") {
+//        composable("splash") { SplashScreen(navController) }
+        composable("options") { Options(navController) }
+//        composable("login") { LoginPage(navController, context) }
+//        composable("signup") { SignupPage(navController,context) }
+        composable("all") { AllQuotes(navController, context) }
     }
 }

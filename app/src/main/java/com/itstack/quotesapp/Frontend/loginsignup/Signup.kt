@@ -43,18 +43,19 @@ import androidx.navigation.NavController
 import com.itstack.quotesapp.R
 import com.itstack.quotesapp.ui.theme.LOGIN_BG
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.platform.LocalContext
 import com.itstack.quotesapp.Backend.FireBaseConn.Signup
 
 @Composable
 fun SignupPage(navController: NavController, context: Context){
-    signupPage(context)
+    signupPage(context, navController)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 //@Preview(showBackground = true)
 @Composable
-fun signupPage(context: Context){
+fun signupPage(context: Context, navController: NavController){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var cpassword by remember { mutableStateOf("") }
@@ -126,7 +127,7 @@ fun signupPage(context: Context){
                         }
                         else{
                             val sup = Signup(context)
-                            sup.signupUser(email, password)
+                            sup.signupUser(email, password, context, navController)
                         }
                     },
                     shape = RoundedCornerShape(8.dp)
@@ -135,10 +136,13 @@ fun signupPage(context: Context){
                 }
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text = "already have an account? login",
+                Text(
+                    text = "already have an account? login",
                     color = Color.Blue,
                     style = TextStyle(textDecoration = TextDecoration.Underline),
-                    fontSize = 15.sp)
+                    fontSize = 15.sp,
+                    modifier = Modifier.clickable(onClick = {navController.navigate("login")})
+                )
 
             }
         }
