@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -36,40 +38,62 @@ import com.itstack.quotesapp.ui.theme.Quotes_Text
 
 
 @Composable
-//@Preview(showBackground = true)
 fun modal(author: String, content: String, onClose: () -> Unit) {
-    Card (
-        modifier = Modifier.fillMaxWidth()
-            .padding(30.dp)
-            .height(100.dp),
-        elevation = CardDefaults.cardElevation(2.dp),
-        colors = CardDefaults.cardColors(Color.Yellow)
-    ){
-        Column (
-            modifier = Modifier.padding(10.dp)
-        ){
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ){
-                Text(text = author,
-                    fontSize = 18.sp,
-                    color = Quotes_Text
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0x99000000))
+            .padding(32.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            elevation = CardDefaults.cardElevation(8.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.Yellow)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Quote of the Day",
+                        fontSize = 18.sp,
+                        color = Color.Black
+                    )
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Close",
+                        modifier = Modifier
+                            .clickable { onClose() }
+                            .padding(4.dp),
+                        tint = Color.White
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = "\"$content\"",
+                    fontSize = 16.sp,
+                    color = Color.Black
                 )
 
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .clickable { onClose() }
+                Spacer(modifier = Modifier.height(8.dp))
 
+                Text(
+                    text = "- $author",
+                    fontSize = 14.sp,
+                    color = Color.DarkGray
                 )
             }
-            Text(text = content,
-                fontSize = 15.sp,
-                color = Quotes_Text
-            )
         }
     }
-
 }

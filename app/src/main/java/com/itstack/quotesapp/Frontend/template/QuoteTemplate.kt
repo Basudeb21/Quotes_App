@@ -29,15 +29,19 @@ import com.itstack.quotesapp.ui.theme.Card_BG1
 import com.itstack.quotesapp.ui.theme.Quotes_Author_Text
 import com.itstack.quotesapp.ui.theme.Quotes_Text
 import androidx.compose.material3.Icon
+import androidx.compose.ui.platform.LocalContext
+import com.itstack.quotesapp.Backend.FireBaseConn.AddDataToFireBase
+import android.widget.Toast
 
 @Composable
-fun OneQuote(author: String, content: String) {
+fun OneQuote(author: String, content: String, id : String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalArrangement = Arrangement.Center
     ) {
+        val context = LocalContext.current
         Card(
             colors = CardDefaults.cardColors(
                 containerColor = Card_BG1,
@@ -70,14 +74,28 @@ fun OneQuote(author: String, content: String) {
                         }
 
                         IconButton(
-                            onClick = { /* Copy logic */ },
+                            onClick = {
+                                val add = AddDataToFireBase(context)
+                                add.addtofevorite(id, content, author){result ->
+                                    if (result){
+                                        Toast.makeText(context, "Data successfully added....",
+                                            Toast.LENGTH_SHORT).show()
+                                    }else{
+                                        Toast.makeText(context, "Data not added....",
+                                            Toast.LENGTH_SHORT).show()
+                                    }
+
+                                }
+                                    },
                             modifier = Modifier.size(27.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Favorite,
-                                contentDescription = "Copy",
+                                contentDescription = "FEV",
                                 tint = Color.Black,
                                 modifier = Modifier.padding(5.dp)
+
+
                             )
                         }
                     }

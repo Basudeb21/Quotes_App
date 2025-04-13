@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -34,7 +35,7 @@ import com.itstack.quotesapp.MainActivity
 import com.itstack.quotesapp.ui.theme.Top_Bar
 import com.itstack.quotesapp.ui.theme.ICON_COLOR
 import com.itstack.quotesapp.R
-
+import androidx.compose.runtime.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(showBackground = true)
@@ -70,6 +71,30 @@ fun topAppBar(){
 @Composable
 //@Preview(showBackground = true)
 fun bottomAppBar(context: Context){
+    var showDialog by remember { mutableStateOf(false) }
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("Logout Confirmation") },
+            text = { Text("Are you sure you want to logout?") },
+            confirmButton = {
+                androidx.compose.material3.TextButton(onClick = {
+                    FirebaseAuth.getInstance().signOut()
+                    context.startActivity(Intent(context, MainActivity::class.java))
+                    showDialog = false
+                }) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                androidx.compose.material3.TextButton(onClick = {
+                    showDialog = false
+                }) {
+                    Text("No")
+                }
+            }
+        )
+    }
     BottomAppBar(
         actions = {
             Row (horizontalArrangement = Arrangement.SpaceBetween,
@@ -88,9 +113,7 @@ fun bottomAppBar(context: Context){
                     Icon(Icons.Default.Edit, contentDescription = "")
                 }
                 IconButton(onClick = {
-                    var auth = FirebaseAuth.getInstance()
-                    auth.signOut()
-                    context.startActivity(Intent(context, MainActivity::class.java))
+                    showDialog = true
                 }) {
                     Icon(painter = painterResource(R.drawable.logout), contentDescription = "")
                 }

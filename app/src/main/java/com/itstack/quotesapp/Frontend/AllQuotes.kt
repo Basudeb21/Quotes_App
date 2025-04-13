@@ -84,9 +84,10 @@ fun allQuotes(navController: NavController, context: Context) {
             else -> {
                 LazyColumn(
                     modifier = Modifier.padding(vertical = 5.dp)
+                        .padding(top = 95.dp, bottom = 120.dp)
                 ) {
                     items(quotesList) { quote ->
-                        OneQuote(author = quote.author, content = quote.quote)
+                        OneQuote(quote.author,  quote.quote, quote.id.toString())
                     }
                 }
             }
